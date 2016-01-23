@@ -9,15 +9,19 @@
 import UIKit
 
 class WakeTableViewController: UITableViewController {
-
+    
+    let dateFormatter = NSDateFormatter()
+    var minutesSinceMidnight:Int = 0
+    var midnight:NSDate = NSDate()
+    
+    @IBOutlet var hourLabel: UILabel!
+    @IBOutlet var hourSlider: UISlider!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        getMinutesSinceMidnight()
+        setInitialSliderValue()
+        setInitialHourLabel()
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,6 +43,42 @@ class WakeTableViewController: UITableViewController {
         }else{
             return 1
         }
+    }
+    
+    @IBAction func hourSlider(sender: AnyObject) {
+        dateFormatter.dateFormat = "h:mm a"
+        var timeInterval:NSTimeInterval = NSTimeInterval(Int(self.hourSlider.value)*60)
+        var alarmTime = midnight.dateByAddingTimeInterval(timeInterval)
+        hourLabel.text = dateFormatter.stringFromDate(alarmTime)
+    }
+    
+    func getMinutesSinceMidnight() -> Int {
+        let date = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let midnightComponents = calendar.components([.Hour, .Minute, .Second, .Day, .Month, .Year], fromDate: date)
+        
+        midnightComponents.hour = 0
+        midnightComponents.minute = 0
+        midnightComponents.second = 0
+        
+        midnight = calendar.dateFromComponents(midnightComponents)!
+        minutesSinceMidnight = Int(NSDate().timeIntervalSinceDate(midnight)/60)
+        
+        print("Minutes since midnight is \(minutesSinceMidnight)")
+
+        return minutesSinceMidnight
+    }
+    
+    func setInitialSliderValue(){
+        hourSlider.value = Float(minutesSinceMidnight)
+    }
+    
+    func setInitialHourLabel(){
+        
+        dateFormatter.dateFormat = "h:mm a"
+        let formattedDate = dateFormatter.stringFromDate(NSDate())
+        print(formattedDate)
+        hourLabel.text = formattedDate
     }
 
     /*
