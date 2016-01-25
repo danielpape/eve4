@@ -33,23 +33,16 @@ class WakeTableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 3
+        return 4
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if section == 0{
-            return 3
+        if section == 2{
+            return 2
         }else{
             return 1
         }
-    }
-    
-    @IBAction func hourSlider(sender: AnyObject) {
-        dateFormatter.dateFormat = "h:mm a"
-        var timeInterval:NSTimeInterval = NSTimeInterval(Int(self.hourSlider.value)*60)
-        var alarmTime = midnight.dateByAddingTimeInterval(timeInterval)
-        hourLabel.text = dateFormatter.stringFromDate(alarmTime)
     }
     
     func getMinutesSinceMidnight() -> Int {
@@ -70,15 +63,15 @@ class WakeTableViewController: UITableViewController {
     }
     
     func setInitialSliderValue(){
-        hourSlider.value = Float(minutesSinceMidnight)
+//        hourSlider.value = Float(minutesSinceMidnight)
     }
     
     func setInitialHourLabel(){
-        
-        dateFormatter.dateFormat = "h:mm a"
-        let formattedDate = dateFormatter.stringFromDate(NSDate())
-        print(formattedDate)
-        hourLabel.text = formattedDate
+//        
+//        dateFormatter.dateFormat = "h:mm a"
+//        let formattedDate = dateFormatter.stringFromDate(NSDate())
+//        print(formattedDate)
+//        hourLabel.text = formattedDate
     }
 
     /*
