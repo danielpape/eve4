@@ -242,6 +242,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="sleepPicker" destination="dRQ-Wr-8Zo" id="hNH-Z3-OJ9"/>
+                        <outlet property="wakeDaysLabel" destination="vYo-GT-R8s" id="PUE-Bn-OzX"/>
                         <outlet property="wakePicker" destination="TV3-Di-HHO" id="5UL-4z-Q1R"/>
                     </connections>
                 </tableViewController>

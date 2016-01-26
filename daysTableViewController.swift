@@ -18,18 +18,54 @@ class daysTableViewController: UITableViewController {
     @IBOutlet var saturdaySwitch: UISwitch!
     @IBOutlet var sundaySwitch: UISwitch!
     
+    var mondayAlarm = Bool()
+    var tuesdayAlarm = Bool()
+    var wednesdayAlarm = Bool()
+    var thursdayAlarm = Bool()
+    var fridayAlarm = Bool()
+    var saturdayAlarm = Bool()
+    var sundayAlarm = Bool()
+
+    var alarmDaysArray = [Int]()
+    
+    var defaults = NSUserDefaults()
+    
+    var firstvisit = Bool()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        firstvisit = false
         
-        let weekdaysArray:[UISwitch] = [mondaySwitch,tuesdaySwitch,wednesdaySwitch,thursdaySwitch,fridaySwitch]
-        
-        for day in weekdaysArray{
-            day.setOn(true, animated: false)
+        if firstvisit == true{
+            alarmDaysArray = [1,2,3,4,5]
+        }else{
+        alarmDaysArray = defaults.objectForKey("selectedSwitches") as! NSArray as! [Int]
         }
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
+        
+        if alarmDaysArray.contains(1){
+            mondaySwitch.on = true
+        }
+        if alarmDaysArray.contains(2){
+            tuesdaySwitch.on = true
+        }
+        if alarmDaysArray.contains(3){
+            wednesdaySwitch.on = true
+        }
+        if alarmDaysArray.contains(4){
+            thursdaySwitch.on = true
+        }
+        if alarmDaysArray.contains(5){
+            fridaySwitch.on = true
+        }
+        if alarmDaysArray.contains(6){
+            saturdaySwitch.on = true
+        }
+        if alarmDaysArray.contains(7){
+            sundaySwitch.on = true
+        }
+        
+//        selectOnlyWeekdays()
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
@@ -50,6 +86,49 @@ class daysTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return 7
     }
+    
+    func selectOnlyWeekdays() {
+        let weekdaysArray:[UISwitch] = [mondaySwitch,tuesdaySwitch,wednesdaySwitch,thursdaySwitch,fridaySwitch]
+        
+        for day in weekdaysArray{
+            day.setOn(true, animated: false)
+        }
+
+    }
+    
+    override func didMoveToParentViewController(parent: UIViewController?) {
+        print("Back button pressed")
+        
+        alarmDaysArray.removeAll()
+        
+        if mondaySwitch.on == true {
+            alarmDaysArray.append(1)
+        }
+        if tuesdaySwitch.on == true {
+            alarmDaysArray.append(2)
+        }
+        if wednesdaySwitch.on == true {
+            alarmDaysArray.append(3)
+        }
+        if thursdaySwitch.on == true {
+            alarmDaysArray.append(4)
+        }
+        if fridaySwitch.on == true {
+            alarmDaysArray.append(5)
+        }
+        if saturdaySwitch.on == true {
+            alarmDaysArray.append(6)
+        }
+        if sundaySwitch.on == true {
+            alarmDaysArray.append(7)
+        }
+        
+        defaults.setObject(alarmDaysArray, forKey: "selectedSwitches")
+        defaults.synchronize()
+        print(alarmDaysArray)
+    }
+
+    
 
     /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {

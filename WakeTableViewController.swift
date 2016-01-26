@@ -14,10 +14,11 @@ class WakeTableViewController: UITableViewController {
     var minutesSinceMidnight:Int = 0
     var midnight:NSDate = NSDate()
     
+    let daysTVC = daysTableViewController()
+    
     @IBOutlet var wakePicker: UIDatePicker!
     @IBOutlet var sleepPicker: UIDatePicker!
-    @IBOutlet var hourLabel: UILabel!
-    @IBOutlet var hourSlider: UISlider!
+    @IBOutlet var wakeDaysLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,8 @@ class WakeTableViewController: UITableViewController {
         wakePicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
         wakePicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
         sleepPicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
-
+        
+        print("Wake days are \(daysTVC.alarmDaysArray)")
     }
 
     override func didReceiveMemoryWarning() {
