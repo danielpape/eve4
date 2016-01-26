@@ -29,17 +29,14 @@ class daysTableViewController: UITableViewController {
     var alarmDaysArray = [Int]()
     
     var defaults = NSUserDefaults()
-    
-    var firstvisit = Bool()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        firstvisit = false
         
-        if firstvisit == true{
+        if defaults.objectForKey("alarmDays") == nil{
             alarmDaysArray = [1,2,3,4,5]
         }else{
-        alarmDaysArray = defaults.objectForKey("selectedSwitches") as! NSArray as! [Int]
+        alarmDaysArray = defaults.objectForKey("alarmDays") as! NSArray as! [Int]
         }
         
         if alarmDaysArray.contains(1){
@@ -123,7 +120,9 @@ class daysTableViewController: UITableViewController {
             alarmDaysArray.append(7)
         }
         
-        defaults.setObject(alarmDaysArray, forKey: "selectedSwitches")
+        let defaults = NSUserDefaults()
+        
+        defaults.setObject(alarmDaysArray, forKey: "alarmDays")
         defaults.synchronize()
         print(alarmDaysArray)
     }

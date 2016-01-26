@@ -13,6 +13,9 @@ class WakeTableViewController: UITableViewController {
     let dateFormatter = NSDateFormatter()
     var minutesSinceMidnight:Int = 0
     var midnight:NSDate = NSDate()
+    var daysInitialArray = [String]()
+    var defaults = NSUserDefaults()
+    var alarmDaysArray = [Int]()
     
     let daysTVC = daysTableViewController()
     
@@ -29,7 +32,61 @@ class WakeTableViewController: UITableViewController {
         wakePicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
         sleepPicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
         
-        print("Wake days are \(daysTVC.alarmDaysArray)")
+//        var alarmDaysArray = defaults.objectForKey("alarmDays") as! NSArray as! [Int]
+        updateAlarmDaysArray()
+        
+        print("Wake days are \(alarmDaysArray)")
+         createDaysString()
+        print(daysInitialArray)
+    }
+    
+    func createDaysString(){
+        daysInitialArray.removeAll()
+        for day in alarmDaysArray{
+            if day == 1{
+                daysInitialArray.append("M")
+            }
+            if day == 2{
+                daysInitialArray.append("T")
+            }
+            if day == 3{
+                daysInitialArray.append("W")
+            }
+            if day == 4{
+                daysInitialArray.append("T")
+            }
+            if day == 5{
+                daysInitialArray.append("F")
+            }
+            if day == 6{
+                daysInitialArray.append("S")
+            }
+            if day == 7{
+                daysInitialArray.append("S")
+            }
+        }
+    }
+    
+    func updateAlarmDaysArray(){
+        if (defaults.objectForKey("alarmDays")) == nil{
+        alarmDaysArray = [1,2,3,4,5]
+        }else{
+        alarmDaysArray = defaults.objectForKey("alarmDays") as! NSArray as! [Int]
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        defaults.synchronize()
+        updateAlarmDaysArray()
+        createDaysString()
+        let daysInitialLabelString = daysInitialArray.joinWithSeparator("")
+        if daysInitialLabelString == "MTWTF" {
+            wakeDaysLabel.text = "Weekdays"
+        }else if daysInitialLabelString == "SS"{
+            wakeDaysLabel.text = "Weekends"
+        }else{
+        wakeDaysLabel.text = daysInitialLabelString
+        }
     }
 
     override func didReceiveMemoryWarning() {
