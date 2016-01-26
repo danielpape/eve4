@@ -10,16 +10,21 @@ import UIKit
 
 class soundsTableViewController: UITableViewController {
     
-    var checked = [Bool]()
+    var defaults = NSUserDefaults()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let preselectedRow = defaults.valueForKey("sound") as! Int
+        print("Preselected row is \(preselectedRow)")
+        
+        let preselectedRowIndexPath:NSIndexPath = NSIndexPath(forRow: preselectedRow, inSection: 0)
+        
+        tableView.selectRowAtIndexPath(preselectedRowIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.None)
+        tableView.cellForRowAtIndexPath(preselectedRowIndexPath)?.accessoryType = .Checkmark
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,13 +48,18 @@ class soundsTableViewController: UITableViewController {
         if let cell = tableView.cellForRowAtIndexPath(indexPath) {
             if cell.accessoryType == .Checkmark
             {
-                cell.accessoryType = .None
-                cell.selected = false
+//                cell.accessoryType = .None
+//                cell.selected = false
             }
             else
             {
                 cell.accessoryType = .Checkmark
                 cell.selected = true
+                
+                let indexPathAsInt:Int = indexPath.row
+                defaults.setInteger(indexPathAsInt, forKey: "sound")
+                defaults.synchronize()
+                print("Index path selected is \(indexPathAsInt)")
             }
         }
     }
