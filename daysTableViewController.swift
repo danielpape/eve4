@@ -1,33 +1,37 @@
 //
-//  WakeTableViewController.swift
+//  daysTableViewController.swift
 //  eve4
 //
-//  Created by Daniel Pape on 20/01/2016.
+//  Created by Daniel Pape on 26/01/2016.
 //  Copyright © 2016 Daniel Pape. All rights reserved.
 //
 
 import UIKit
 
-class WakeTableViewController: UITableViewController {
+class daysTableViewController: UITableViewController {
     
-    let dateFormatter = NSDateFormatter()
-    var minutesSinceMidnight:Int = 0
-    var midnight:NSDate = NSDate()
-    
-    @IBOutlet var wakePicker: UIDatePicker!
-    @IBOutlet var sleepPicker: UIDatePicker!
-    @IBOutlet var hourLabel: UILabel!
-    @IBOutlet var hourSlider: UISlider!
+    @IBOutlet var mondaySwitch: UISwitch!
+    @IBOutlet var tuesdaySwitch: UISwitch!
+    @IBOutlet var wednesdaySwitch: UISwitch!
+    @IBOutlet var thursdaySwitch: UISwitch!
+    @IBOutlet var fridaySwitch: UISwitch!
+    @IBOutlet var saturdaySwitch: UISwitch!
+    @IBOutlet var sundaySwitch: UISwitch!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getMinutesSinceMidnight()
-        setInitialSliderValue()
-        setInitialHourLabel()
-        wakePicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
-        wakePicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
-        sleepPicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
+        
+        let weekdaysArray:[UISwitch] = [mondaySwitch,tuesdaySwitch,wednesdaySwitch,thursdaySwitch,fridaySwitch]
+        
+        for day in weekdaysArray{
+            day.setOn(true, animated: false)
+        }
 
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,45 +43,12 @@ class WakeTableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 4
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if section == 2{
-            return 2
-        }else{
-            return 1
-        }
-    }
-    
-    func getMinutesSinceMidnight() -> Int {
-        let date = NSDate()
-        let calendar = NSCalendar.currentCalendar()
-        let midnightComponents = calendar.components([.Hour, .Minute, .Second, .Day, .Month, .Year], fromDate: date)
-        
-        midnightComponents.hour = 0
-        midnightComponents.minute = 0
-        midnightComponents.second = 0
-        
-        midnight = calendar.dateFromComponents(midnightComponents)!
-        minutesSinceMidnight = Int(NSDate().timeIntervalSinceDate(midnight)/60)
-        
-        print("Minutes since midnight is \(minutesSinceMidnight)")
-
-        return minutesSinceMidnight
-    }
-    
-    func setInitialSliderValue(){
-//        hourSlider.value = Float(minutesSinceMidnight)
-    }
-    
-    func setInitialHourLabel(){
-//        
-//        dateFormatter.dateFormat = "h:mm a"
-//        let formattedDate = dateFormatter.stringFromDate(NSDate())
-//        print(formattedDate)
-//        hourLabel.text = formattedDate
+        return 7
     }
 
     /*
