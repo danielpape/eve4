@@ -10,15 +10,17 @@ import UIKit
 
 class WakeTableViewController: UITableViewController {
     
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter = DateFormatter()
     var minutesSinceMidnight:Int = 0
-    var midnight:NSDate = NSDate()
+    var midnight:Date = Date()
     var daysInitialArray = [String]()
-    var defaults = NSUserDefaults()
+    var defaults = UserDefaults()
     var alarmDaysArray = [Int]()
-    
     let daysTVC = daysTableViewController()
+    var wakeTime = Date()
+    var sleepTime = Date()
     
+    @IBOutlet var confirmButton: UIButton!
     @IBOutlet var wakePicker: UIDatePicker!
     @IBOutlet var sleepPicker: UIDatePicker!
     @IBOutlet var wakeDaysLabel: UILabel!
@@ -26,11 +28,9 @@ class WakeTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getMinutesSinceMidnight()
-        setInitialSliderValue()
-        setInitialHourLabel()
-        wakePicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
-        wakePicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
-        sleepPicker.setValue(UIColor.whiteColor(), forKeyPath: "textColor")
+        wakePicker.setValue(UIColor.white, forKeyPath: "textColor")
+        wakePicker.setValue(UIColor.white, forKeyPath: "textColor")
+        sleepPicker.setValue(UIColor.white, forKeyPath: "textColor")
         
 //        var alarmDaysArray = defaults.objectForKey("alarmDays") as! NSArray as! [Int]
         updateAlarmDaysArray()
@@ -68,18 +68,18 @@ class WakeTableViewController: UITableViewController {
     }
     
     func updateAlarmDaysArray(){
-        if (defaults.objectForKey("alarmDays")) == nil{
+        if (defaults.object(forKey: "alarmDays")) == nil{
         alarmDaysArray = [1,2,3,4,5]
         }else{
-        alarmDaysArray = defaults.objectForKey("alarmDays") as! NSArray as! [Int]
+        alarmDaysArray = defaults.object(forKey: "alarmDays") as! NSArray as! [Int]
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         defaults.synchronize()
         updateAlarmDaysArray()
         createDaysString()
-        let daysInitialLabelString = daysInitialArray.joinWithSeparator("")
+        let daysInitialLabelString = daysInitialArray.joined(separator: "")
         if daysInitialLabelString == "MTWTF" {
             wakeDaysLabel.text = "Weekdays"
         }else if daysInitialLabelString == "SS"{
@@ -96,12 +96,12 @@ class WakeTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 4
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         if section == 2{
             return 2
@@ -111,32 +111,26 @@ class WakeTableViewController: UITableViewController {
     }
     
     func getMinutesSinceMidnight() -> Int {
-        let date = NSDate()
-        let calendar = NSCalendar.currentCalendar()
-        let midnightComponents = calendar.components([.Hour, .Minute, .Second, .Day, .Month, .Year], fromDate: date)
+        let date = Date()
+        let calendar = Calendar.current
+        var midnightComponents = (calendar as NSCalendar).components([.hour, .minute, .second, .day, .month, .year], from: date)
         
         midnightComponents.hour = 0
         midnightComponents.minute = 0
         midnightComponents.second = 0
         
-        midnight = calendar.dateFromComponents(midnightComponents)!
-        minutesSinceMidnight = Int(NSDate().timeIntervalSinceDate(midnight)/60)
+        midnight = calendar.date(from: midnightComponents)!
+        minutesSinceMidnight = Int(Date().timeIntervalSince(midnight)/60)
         
         print("Minutes since midnight is \(minutesSinceMidnight)")
 
         return minutesSinceMidnight
     }
     
-    func setInitialSliderValue(){
-//        hourSlider.value = Float(minutesSinceMidnight)
-    }
-    
-    func setInitialHourLabel(){
-//        
-//        dateFormatter.dateFormat = "h:mm a"
-//        let formattedDate = dateFormatter.stringFromDate(NSDate())
-//        print(formattedDate)
-//        hourLabel.text = formattedDate
+    @IBAction func tapConfirmButton(_ sender: AnyObject) {
+        print(wakePicker.date)
+        let wakeTime = wakePicker.date
+        let sleepTime = sleepPicker.date
     }
 
     /*

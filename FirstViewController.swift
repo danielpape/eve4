@@ -13,7 +13,7 @@ class FirstViewController: UIViewController {
     @IBOutlet var toolbar: UIToolbar!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBarController?.tabBar.hidden = true
+        self.tabBarController?.tabBar.isHidden = true
         toolbar.barTintColor = UIColor(red: 27/255, green: 27/255, blue: 27/255, alpha: 1)
     }
 
@@ -22,15 +22,15 @@ class FirstViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func tapWakeButton(sender: AnyObject) {
+    @IBAction func tapWakeButton(_ sender: AnyObject) {
         self.tabBarController?.selectedIndex = 0
     }
 
-    @IBAction func tapSleepButton(sender: AnyObject) {
+    @IBAction func tapSleepButton(_ sender: AnyObject) {
          self.tabBarController?.selectedIndex = 1
     }
     
-    @IBAction func tapSettingsButton(sender: AnyObject) {
+    @IBAction func tapSettingsButton(_ sender: AnyObject) {
         self.tabBarController?.selectedIndex = 2
     }
 }

@@ -28,37 +28,37 @@ class daysTableViewController: UITableViewController {
 
     var alarmDaysArray = [Int]()
     
-    var defaults = NSUserDefaults()
+    var defaults = UserDefaults()
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if defaults.objectForKey("alarmDays") == nil{
+        if defaults.object(forKey: "alarmDays") == nil{
             alarmDaysArray = [1,2,3,4,5]
         }else{
-        alarmDaysArray = defaults.objectForKey("alarmDays") as! NSArray as! [Int]
+        alarmDaysArray = defaults.object(forKey: "alarmDays") as! NSArray as! [Int]
         }
         
         if alarmDaysArray.contains(1){
-            mondaySwitch.on = true
+            mondaySwitch.isOn = true
         }
         if alarmDaysArray.contains(2){
-            tuesdaySwitch.on = true
+            tuesdaySwitch.isOn = true
         }
         if alarmDaysArray.contains(3){
-            wednesdaySwitch.on = true
+            wednesdaySwitch.isOn = true
         }
         if alarmDaysArray.contains(4){
-            thursdaySwitch.on = true
+            thursdaySwitch.isOn = true
         }
         if alarmDaysArray.contains(5){
-            fridaySwitch.on = true
+            fridaySwitch.isOn = true
         }
         if alarmDaysArray.contains(6){
-            saturdaySwitch.on = true
+            saturdaySwitch.isOn = true
         }
         if alarmDaysArray.contains(7){
-            sundaySwitch.on = true
+            sundaySwitch.isOn = true
         }
         
 //        selectOnlyWeekdays()
@@ -74,12 +74,12 @@ class daysTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 7
     }
@@ -93,36 +93,36 @@ class daysTableViewController: UITableViewController {
 
     }
     
-    override func didMoveToParentViewController(parent: UIViewController?) {
+    override func didMove(toParentViewController parent: UIViewController?) {
         print("Back button pressed")
         
         alarmDaysArray.removeAll()
         
-        if mondaySwitch.on == true {
+        if mondaySwitch.isOn == true {
             alarmDaysArray.append(1)
         }
-        if tuesdaySwitch.on == true {
+        if tuesdaySwitch.isOn == true {
             alarmDaysArray.append(2)
         }
-        if wednesdaySwitch.on == true {
+        if wednesdaySwitch.isOn == true {
             alarmDaysArray.append(3)
         }
-        if thursdaySwitch.on == true {
+        if thursdaySwitch.isOn == true {
             alarmDaysArray.append(4)
         }
-        if fridaySwitch.on == true {
+        if fridaySwitch.isOn == true {
             alarmDaysArray.append(5)
         }
-        if saturdaySwitch.on == true {
+        if saturdaySwitch.isOn == true {
             alarmDaysArray.append(6)
         }
-        if sundaySwitch.on == true {
+        if sundaySwitch.isOn == true {
             alarmDaysArray.append(7)
         }
         
-        let defaults = NSUserDefaults()
+        let defaults = UserDefaults()
         
-        defaults.setObject(alarmDaysArray, forKey: "alarmDays")
+        defaults.set(alarmDaysArray, forKey: "alarmDays")
         defaults.synchronize()
         print(alarmDaysArray)
     }

@@ -10,18 +10,18 @@ import UIKit
 
 class soundsTableViewController: UITableViewController {
     
-    var defaults = NSUserDefaults()
+    var defaults = UserDefaults()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let preselectedRow = defaults.valueForKey("sound") as! Int
+        let preselectedRow = defaults.value(forKey: "sound") as! Int
         print("Preselected row is \(preselectedRow)")
         
-        let preselectedRowIndexPath:NSIndexPath = NSIndexPath(forRow: preselectedRow, inSection: 0)
+        let preselectedRowIndexPath:IndexPath = IndexPath(row: preselectedRow, section: 0)
         
-        tableView.selectRowAtIndexPath(preselectedRowIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.None)
-        tableView.cellForRowAtIndexPath(preselectedRowIndexPath)?.accessoryType = .Checkmark
+        tableView.selectRow(at: preselectedRowIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        tableView.cellForRow(at: preselectedRowIndexPath)?.accessoryType = .checkmark
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -34,39 +34,39 @@ class soundsTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 5
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-            if cell.accessoryType == .Checkmark
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if cell.accessoryType == .checkmark
             {
 //                cell.accessoryType = .None
 //                cell.selected = false
             }
             else
             {
-                cell.accessoryType = .Checkmark
-                cell.selected = true
+                cell.accessoryType = .checkmark
+                cell.isSelected = true
                 
                 let indexPathAsInt:Int = indexPath.row
-                defaults.setInteger(indexPathAsInt, forKey: "sound")
+                defaults.set(indexPathAsInt, forKey: "sound")
                 defaults.synchronize()
                 print("Index path selected is \(indexPathAsInt)")
             }
         }
     }
     
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-            cell.accessoryType = .None
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.accessoryType = .none
         }
     }
 

@@ -20,10 +20,10 @@ class playerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let audioPath = NSBundle.mainBundle().pathForResource("meditation1", ofType: "mp3")!
+        let audioPath = Bundle.main.path(forResource: "meditation1", ofType: "mp3")!
         
         do{
-            audioPlayer = try AVAudioPlayer(contentsOfURL: NSURL(string:audioPath)!)
+            audioPlayer = try AVAudioPlayer(contentsOf: URL(string:audioPath)!)
         }catch{
             print(error)
         }
@@ -35,19 +35,19 @@ class playerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func tapPlayerButton(sender: AnyObject) {
+    @IBAction func tapPlayerButton(_ sender: AnyObject) {
         if currentlyplaying{
             currentlyplaying = false
             audioPlayer.pause()
-            playButton.setTitle("Play", forState: UIControlState.Normal)
+            playButton.setTitle("Play", for: UIControlState())
         }else{
             currentlyplaying = true
             audioPlayer.play()
-            playButton.setTitle("Pause", forState: UIControlState.Normal)
+            playButton.setTitle("Pause", for: UIControlState())
         }
     }
     
-    @IBAction func slideVolumeSlider(sender: AnyObject) {
+    @IBAction func slideVolumeSlider(_ sender: AnyObject) {
         audioPlayer.volume = volumeSlider.value
     }
     
